@@ -26,6 +26,19 @@ router.post(
 				});
 				user.meetings.push(meet._id);
 				await user.save();
+
+				res.json({
+					ok: true,
+					msg: "Meeting succesfully created",
+					data: {
+						id: meet._id,
+						title,
+						description,
+						start,
+						duration,
+						createdBy: req.user.email,
+					},
+				});
 			}
 		} catch (err) {
 			console.log(err);
