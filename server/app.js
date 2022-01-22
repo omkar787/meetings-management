@@ -3,11 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const Register = require("./routes/Register")
-
-
-
-
-
+const Login = require("./routes/Login")
 
 const app = express()
 
@@ -30,7 +26,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/register", Register)
-
+app.use("/login",Login)
 
 
 
