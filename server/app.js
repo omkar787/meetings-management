@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-
 //middlewares
 const validator = require("./Middlewares/validator");
 
@@ -11,9 +10,10 @@ const validator = require("./Middlewares/validator");
 const Register = require("./routes/Register");
 const Login = require("./routes/Login");
 const AddMeeting = require("./routes/Meetings/create");
-const GetAll = require("./routes/Meetings/getAll")
-const Delete = require("./routes/Meetings/delete")
-const Update = require("./routes/Meetings/update")
+const GetAll = require("./routes/Meetings/getAll");
+const Delete = require("./routes/Meetings/delete");
+const Update = require("./routes/Meetings/update");
+const ValidateRoute = require("./routes/ValidateRoute");
 
 const app = express();
 
@@ -37,11 +37,10 @@ app.use(express.json());
 app.use("/register", Register);
 app.use("/login", Login);
 app.use("/m/add", validator, AddMeeting);
-app.use("/m/update", validator, Update)
-app.use("/m/delete", validator, Delete)
-app.use("/m/getall", validator, GetAll)
-
-
+app.use("/m/update", validator, Update);
+app.use("/m/delete", validator, Delete);
+app.use("/m/getall", validator, GetAll);
+app.use("/validate", validator, ValidateRoute);
 
 const PORT = process.env.PORT || 5000;
 

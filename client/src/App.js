@@ -1,9 +1,12 @@
+import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Routes/Home";
 import Login from "./Routes/Login";
 import Register from "./Routes/Register";
 
 function App() {
+	axios.defaults.baseURL = process.env.REACT_APP_BASE_URI;
+	axios.defaults.headers.post["Content-Type"] = "application/json";
 	return (
 		<div className="App">
 			<Routes>
