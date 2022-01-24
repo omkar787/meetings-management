@@ -2,8 +2,16 @@ import axios from "axios";
 import React, { useLayoutEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import validator from "../Methods/validator";
-import {preDivCss,formCss, inputCss,inputBtnCss,linkCss} from '../config/authCss'
+import {
+	preDivCss,
+	formCss,
+	inputCss,
+	inputBtnCss,
+	linkCss,
+} from "../config/authCss";
+
 export default function Register() {
+	document.title = "Register";
 	const navigate = useNavigate();
 
 	async function getLoggged() {
@@ -34,10 +42,7 @@ export default function Register() {
 	return (
 		<div>
 			<div className={preDivCss}>
-				<form
-					className={formCss}
-					onSubmit={onSubmitHandle}
-				>
+				<form className={formCss} onSubmit={onSubmitHandle}>
 					<div>
 						<input
 							className={inputCss}
@@ -63,6 +68,7 @@ export default function Register() {
 							type="password"
 							name="password"
 							placeholder="Password"
+							min={5}
 							required
 						/>
 					</div>
@@ -73,8 +79,10 @@ export default function Register() {
 							value="Register"
 						/>
 					</div>
-					<div >
-						<Link className={linkCss} to="/login">Login</Link>
+					<div>
+						<Link className={linkCss} to="/login">
+							Login
+						</Link>
 					</div>
 				</form>
 			</div>

@@ -11,6 +11,7 @@ import {
 } from "../config/authCss";
 
 export default function Login() {
+	document.title = "Login";
 	const navigate = useNavigate();
 
 	async function getLoggged() {
@@ -48,6 +49,7 @@ export default function Login() {
 							type="email"
 							name="email"
 							placeholder="Email"
+							required
 						/>
 					</div>
 
@@ -56,7 +58,9 @@ export default function Login() {
 							type="password"
 							name="password"
 							placeholder="Password"
+							min={5}
 							className={inputCss}
+							required
 						/>
 					</div>
 					<div>
