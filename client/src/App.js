@@ -8,7 +8,7 @@ function App() {
 	axios.defaults.baseURL = process.env.REACT_APP_BASE_URI;
 	axios.defaults.headers.post["Content-Type"] = "application/json";
 	return (
-		<div className="App">
+		<div style={{ fontFamily: "monospace " }} className="App">
 			<Routes>
 				<Route exact path="/" element={<Home />} />
 				<Route exact path="/register" element={<Register />} />
