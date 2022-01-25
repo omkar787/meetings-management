@@ -28,7 +28,6 @@ export default function Home() {
 	// to check if the user is currently logged in
 	async function getLoggged() {
 		const isLoggedIn = await validator();
-		console.log(isLoggedIn);
 		if (!isLoggedIn) {
 			navigate("/login");
 		}
@@ -40,12 +39,7 @@ export default function Home() {
 		setLoading(true);
 
 		const { title, description, start, duration } = e.target;
-		console.log(
-			title.value,
-			description.value,
-			start.value,
-			duration.value,
-		);
+
 		const { data } = await axios.post(
 			"/m/add",
 			{
@@ -62,10 +56,8 @@ export default function Home() {
 		);
 
 		if (data.ok) {
-			console.log(e);
 			e.target.reset();
 			data.data._id = data.data.id;
-			console.log(data);
 			meets ? setMeets([data.data, ...meets]) : setMeets([data.data]);
 			setCreateBox(false);
 		} else {
@@ -82,7 +74,6 @@ export default function Home() {
 		getLoggged();
 		if (localStorage.getItem("token")) {
 			const data = jwtDecode(localStorage.getItem("token"));
-			console.log(data);
 			setUser(data);
 			axios
 				.get("/m/getall", {
@@ -93,7 +84,6 @@ export default function Home() {
 					},
 				})
 				.then((data) => {
-					console.log(data.data.data);
 					setMeets(data.data.data);
 				});
 		}
@@ -212,19 +202,25 @@ export default function Home() {
 
 						{/* For showing all meetings */}
 						{meets ? (
-							<div className=' flex gap-5 flex-col px-5 pb-4'>
-								{meets.map((meet) => {
-									return (
-										<Meetings
-											key={meet._id}
-											meet={meet}
-											setMeets={setMeets}
-											setLoading={setLoading}
-											setError={setError}
-										/>
-									);
-								})}
-							</div>
+							meets.length > 0 ? (
+								<div className=' flex gap-5 flex-col px-5 pb-4'>
+									{meets.map((meet) => {
+										return (
+											<Meetings
+												key={meet._id}
+												meet={meet}
+												setMeets={setMeets}
+												setLoading={setLoading}
+												setError={setError}
+											/>
+										);
+									})}
+								</div>
+							) : (
+								<div className='text-gray-500 flex justify-center text-xl lg:text-3xl'>
+									No meetings created
+								</div>
+							)
 						) : null}
 					</div>
 				</div>
@@ -260,22 +256,19 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 	// function for deleting a specific meetings
 	async function onDeleteClick(e) {
 		setLoading(true);
-		console.log(e);
 		let { data } = await axios.delete(`/m/delete/${e}`, {
 			headers: {
 				authorization: `bearer ${localStorage.getItem("token")}`,
 			},
 		});
 
-		if (data.ok) {
-			let getAll = await axios.get("/m/getall", {
-				headers: {
-					authorization: `bearer ${localStorage.getItem("token")}`,
-				},
-			});
-			console.log(getAll.data.data);
-			setMeets(getAll.data.data);
-		} else {
+		let getAll = await axios.get("/m/getall", {
+			headers: {
+				authorization: `bearer ${localStorage.getItem("token")}`,
+			},
+		});
+		setMeets(getAll.data.data);
+		if (!data.ok) {
 			setError(true);
 			setTimeout(() => {
 				setError(false);
@@ -313,7 +306,6 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 										},
 									},
 								);
-								console.log(data);
 
 								if (data.ok) {
 									let getAll = await axios.get("/m/getall", {
@@ -361,7 +353,6 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 										},
 									},
 								);
-								console.log(data);
 								if (data.ok) {
 									let getAll = await axios.get("/m/getall", {
 										headers: {
@@ -390,7 +381,6 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 							type='datetime-local'
 							className='md:w-64 w-32 mr-5 border border-gray-600 p-1 rounded-md'
 							onChange={(e) => {
-								console.log(e.target.value);
 								setStart(
 									new Date(e.target.value).toISOString(),
 								);
@@ -412,7 +402,6 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 										},
 									},
 								);
-								console.log(data);
 								if (data.ok) {
 									let getAll = await axios.get("/m/getall", {
 										headers: {
@@ -463,7 +452,6 @@ export function Meetings({ meet, setMeets, setLoading, setError }) {
 										},
 									},
 								);
-								console.log(data);
 
 								if (data.ok) {
 									let getAll = await axios.get("/m/getall", {
