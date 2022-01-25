@@ -9,10 +9,11 @@ export default function NavigationBar() {
 		navigate("/login");
 	}
 	return (
-		<div className="bg-orange-300 text-sm fixed w-full overflow-hidden p-1 pr-5 top-0">
+		<div className='bg-sky-300 text-sm fixed w-full overflow-hidden p-1 pr-5 top-0 '>
+			<span className='text-xl font-mono font-black'>Calendly</span>
 			<button
 				onClick={onClickHandle}
-				className="transition-colors ease-in-out delay-150 duration-300 bg-green-200 hover:bg-green-300  rounded-full font-medium px-2 p-1 float-right"
+				className='transition-colors text-base ease-in-out delay-150 duration-300 bg-green-200 hover:bg-green-300  rounded-full px-2 p-1 float-right'
 			>
 				Log out
 			</button>

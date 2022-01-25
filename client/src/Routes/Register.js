@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import validator from "../Methods/validator";
+import ReactLoading from "react-loading";
+
 import {
 	preDivCss,
 	formCss,
@@ -13,6 +15,8 @@ import {
 export default function Register() {
 	document.title = "Register";
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	async function getLoggged() {
 		const isLoggedIn = await validator();
@@ -26,6 +30,7 @@ export default function Register() {
 	}, []);
 
 	async function onSubmitHandle(e) {
+		setLoading(true);
 		e.preventDefault();
 		const { name, email, password } = e.target;
 		const { data } = await axios.post("/register", {
@@ -36,6 +41,12 @@ export default function Register() {
 
 		if (data.ok) {
 			navigate("/login");
+		} else {
+			setLoading(false);
+			setError(true);
+			setTimeout(() => {
+				setError(false);
+			}, 3000);
 		}
 	}
 
@@ -43,21 +54,26 @@ export default function Register() {
 		<div>
 			<div className={preDivCss}>
 				<form className={formCss} onSubmit={onSubmitHandle}>
+					{error ? (
+						<div className='bg-red-600 text-white p-2 rounded-full shadow-lg shadow-red-400'>
+							An Error occured
+						</div>
+					) : null}
 					<div>
 						<input
 							className={inputCss}
-							type="text"
-							name="name"
-							placeholder="Name"
+							type='text'
+							name='name'
+							placeholder='Name'
 							required
 						/>
 					</div>
 					<div>
 						<input
 							className={inputCss}
-							type="email"
-							name="email"
-							placeholder="Email"
+							type='email'
+							name='email'
+							placeholder='Email'
 							required
 						/>
 					</div>
@@ -65,22 +81,31 @@ export default function Register() {
 					<div>
 						<input
 							className={inputCss}
-							type="password"
-							name="password"
-							placeholder="Password"
+							type='password'
+							name='password'
+							placeholder='Password'
 							min={5}
 							required
 						/>
 					</div>
 					<div>
-						<input
-							className={inputBtnCss}
-							type="submit"
-							value="Register"
-						/>
+						{loading ? (
+							<div className='flex justify-center '>
+								<ReactLoading
+									color='rgb(255, 123, 0)'
+									type='bars'
+								/>
+							</div>
+						) : (
+							<input
+								className={inputBtnCss}
+								type='submit'
+								value='Register'
+							/>
+						)}
 					</div>
 					<div>
-						<Link className={linkCss} to="/login">
+						<Link className={linkCss} to='/login'>
 							Login
 						</Link>
 					</div>
